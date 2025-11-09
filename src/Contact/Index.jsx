@@ -2,13 +2,11 @@ import React from "react";
 import Header from "../Shared/Header/Header.jsx";
 import View from "./Components/View.jsx";
 
-export default function Reels() {
+export default function Contact() {
   return (
     <>
-      <>
-        <Header title={"Reels"} icon={"bxs:videos"} />
-        <View />
-      </>
+      <Header title={"Contact"} icon={"material-symbols:mail"} />
+      <View />
     </>
   );
 }

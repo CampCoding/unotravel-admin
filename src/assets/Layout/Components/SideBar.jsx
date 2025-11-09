@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router";
 import { useLocation } from "react-router";
 import logo from "/src/assets/images/BusinessCardLogo-removebg-preview.png";
+import bigBang from "/src/assets/images/bigBang.svg";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -15,7 +16,12 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     },
     { name: "Sales Agents", path: "/salesAgents", icon: "ph:users-three-fill" },
     { name: "News", path: "/news", icon: "fluent:news-24-regular" },
-    { name: "Reals", path: "/reals", icon: "bxs:videos" },
+    { name: "Reels", path: "/reels", icon: "bxs:videos" },
+    { name: "Partners", path: "/partners", icon: "icon-park-outline:muscle" },
+    { name: "Features", path: "/Features", icon: "tabler:rocket" },
+    { name: "Contact", path: "/contact", icon: "material-symbols:mail" },
+    { name: "About Us", path: "/aboutUs", icon: "ix:about" },
+    { name: "Settings", path: "/settings", icon: "lsicon:setting-outline" },
   ];
 
   return (
@@ -31,7 +37,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transform transition-transform duration-300 bg-gradient-to-b from-blue-700 via-blue-800 to-blue-900 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-white shadow-xl ${
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transform transition-transform duration-300 bg-gradient-to-b from-gray-200 via-blue-700 to-blueMain dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-white shadow-xl ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
@@ -47,9 +53,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 overflow-y-auto">
-            <ul className="space-y-1">
+            <ul className="space-y-1 flex flex-col">
               {menuItems.map(({ name, path, icon }) => {
                 const active = location.pathname === path;
+
                 return (
                   <li key={name}>
                     <Link
@@ -58,7 +65,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                         active
                           ? "bg-white text-blue-700 shadow-sm"
                           : "text-white/85 hover:bg-white/15 hover:text-white"
-                      }`}
+                      } `}
                     >
                       <Icon icon={icon} width={22} />
                       {name}
@@ -70,8 +77,19 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 mt-auto border-t border-white/10 text-sm text-white/70">
-            <p>© 2025 UNO Travel</p>
+          <div className="p-4 mt-auto border-t border-white/10 text-sm text-black">
+            <div className="grid grid-cols-1 ">
+              <div className="flex justify-center items-center">
+                <span>Powered By :</span>
+              </div>
+              <div className="">
+                <img
+                  src={bigBang}
+                  alt="UNO Travel"
+                  className="w-full object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </aside>

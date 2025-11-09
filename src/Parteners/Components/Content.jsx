@@ -1,8 +1,7 @@
-import React, { Activity, lazy, Suspense } from "react";
+import React, { Activity } from "react";
 import View from "./View.jsx";
-/* import TableView from "./ContentView/TableView.jsx"; */
+import TableView from "./ContentView/TableView.jsx";
 import GridView from "./ContentView/GridView.jsx";
-const TableView = lazy(() => import("./ContentView/TableView.jsx"));
 
 export default function Content({ view }) {
   const viewType = { grid: "grid", table: "table" };
@@ -13,9 +12,7 @@ export default function Content({ view }) {
         <GridView />
       </Activity>
       <Activity mode={view === viewType.table ? "visible" : "hidden"}>
-        <Suspense fallback={<p>Loading...</p>}>
-          <TableView />
-        </Suspense>
+        <TableView />
       </Activity>
     </>
   );

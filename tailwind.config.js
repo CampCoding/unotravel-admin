@@ -5,15 +5,16 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    ".flowbite-react\\class-list.json",
+    "./.flowbite-react/class-list.json", // ✅
   ],
   theme: {
     extend: {
       colors: {
         blueMain: "#3B85C1",
+        blueDark: "#16294F",
       },
       fontFamily: {
-        "Inter": ["Inter", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
       },
     },
   },

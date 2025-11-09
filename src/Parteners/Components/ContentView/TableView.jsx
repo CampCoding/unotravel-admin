@@ -8,8 +8,17 @@ export default function TableView() {
     <Table
       head={["Service Img", "Service Name"]}
       data={[
-        { serviceimg: service, servicename: "Service Name", price: "Price" },
-        { serviceimg: service, servicename: "Service Name", price: "Price" },
+        {
+          ServiceImg: service,
+          ServiceName: "Service Name",
+          price: "Price",
+        },
+        {
+          id: 2,
+          serviceimg: service,
+          servicename: "Service Name",
+          price: "Price",
+        },
       ]}
     />
   );

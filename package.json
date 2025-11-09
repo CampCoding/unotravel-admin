@@ -12,6 +12,8 @@
   "dependencies": {
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.12.10",
+    "jodit": "^4.7.9",
+    "jodit-react": "^5.2.38",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.5",
