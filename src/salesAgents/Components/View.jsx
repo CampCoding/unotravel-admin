@@ -1,45 +1,65 @@
 import React, { useState } from "react";
-import AddButton from "../../Shared/AddButton/AddButton.jsx";
 import { Icon } from "@iconify/react";
 import Content from "./Content.jsx";
+import Modal from "../../Shared/Modal/Modal.jsx";
+import AgentForm from "./Form.jsx";
+import LoadingGrid from "../../Shared/States/LoadingGrid.jsx";
+import EmptyState from "../../Shared/States/EmptyState.jsx";
+import ErrorState from "../../Shared/States/ErrorState.jsx";
+import { agentsAPI } from "../../api/endpoints.js";
+import { useFetch } from "../../hooks/useFetch.js";
 
 export default function View() {
-  const [view, setView] = useState("grid"); //
+  const [view, setView] = useState("grid");
+  const [editItem, setEditItem] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const { data, loading, error, refetch } = useFetch(agentsAPI.list);
+
+  const handleAdd = () => { setEditItem(null); setOpenModal(true); };
+  const handleEdit = (item) => { setEditItem(item); setOpenModal(true); };
+  const handleClose = () => { setOpenModal(false); setEditItem(null); };
+  const handleSuccess = () => { refetch(); handleClose(); };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this agent?")) return;
+    try { await agentsAPI.delete(id); refetch(); }
+    catch { alert("Failed to delete agent."); }
+  };
+
   return (
-    <section className="">
-      <div className="container mx-auto p-2">
-        <div className="my-3">
-          <AddButton title={"Add Sales Agent"} icon={"carbon:add-alt"} />
+    <section className="flex-1 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-base font-semibold text-gray-700">All Sales Agents</h2>
+          <p className="text-xs text-gray-400 mt-0.5">{loading ? "Loading..." : `${data?.length ?? 0} agents total`}</p>
         </div>
-        <div className="flex justify-end my-1">
-          <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <button
-              onClick={() => setView("grid")}
-              aria-label="Grid view"
-              className={`px-3 py-2 flex items-center  text-sm transition ${
-                view === "grid"
-                  ? "bg-blueMain text-white"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-              }`}
-            >
-              <Icon icon="mdi:view-grid" width={18} />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-gray-100 rounded-xl p-1 gap-1">
+            <button onClick={() => setView("grid")} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${view === "grid" ? "bg-white text-blueMain shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+              <Icon icon="mdi:view-grid" width={15} />Grid
             </button>
-            <button
-              onClick={() => setView("table")}
-              aria-label="Table view"
-              className={`px-3 py-2 flex items-center gap-2 text-sm transition ${
-                view === "table"
-                  ? "bg-blueMain text-white"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-              }`}
-            >
-              <Icon icon="mdi:table" width={18} />
+            <button onClick={() => setView("table")} className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${view === "table" ? "bg-white text-blueMain shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+              <Icon icon="mdi:table" width={15} />Table
             </button>
           </div>
+          <button onClick={handleAdd} className="inline-flex items-center gap-2 px-4 py-2.5 bg-blueMain text-white text-sm font-semibold rounded-xl shadow-md hover:bg-blue-700 active:scale-95 transition-all">
+            <Icon icon="mdi:plus" width={16} /> Add Agent
+          </button>
         </div>
-
-        <Content view={view} />
       </div>
+
+      {loading && <LoadingGrid count={8} />}
+      {error && <ErrorState message={error} onRetry={refetch} />}
+      {!loading && !error && (!data || data.length === 0) && (
+        <EmptyState icon="ph:users-three-fill" message="No agents yet" action={handleAdd} actionLabel="Add Agent" />
+      )}
+      {!loading && !error && data && data.length > 0 && (
+        <Content view={view} data={data} onDelete={handleDelete} onEdit={handleEdit} />
+      )}
+
+      <Modal open={openModal} onClose={handleClose} title={editItem ? "Edit Agent" : "Add Agent"} icon="ph:users-three-fill">
+        <AgentForm initialData={editItem} onSuccess={handleSuccess} onClose={handleClose} />
+      </Modal>
     </section>
   );
 }

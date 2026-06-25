@@ -1,19 +1,9 @@
-import React, { Activity } from "react";
-import View from "./View.jsx";
+import React from "react";
 import TableView from "./ContentView/TableView.jsx";
 import GridView from "./ContentView/GridView.jsx";
 
-export default function Content({ view }) {
-  const viewType = { grid: "grid", table: "table" };
-
-  return (
-    <>
-      <Activity mode={view === viewType.grid ? "visible" : "hidden"}>
-        <GridView />
-      </Activity>
-      <Activity mode={view === viewType.table ? "visible" : "hidden"}>
-        <TableView />
-      </Activity>
-    </>
-  );
+export default function Content({ view, data, onDelete, onEdit }) {
+  return view === "grid"
+    ? <GridView data={data} onDelete={onDelete} onEdit={onEdit} />
+    : <TableView data={data} onDelete={onDelete} onEdit={onEdit} />;
 }

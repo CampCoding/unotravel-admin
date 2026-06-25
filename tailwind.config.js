@@ -13,7 +13,9 @@ export default {
         blueMain: "#3B85C1",
       },
       fontFamily: {
-        "Inter": ["Inter", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+        Cairo: ["Cairo", "sans-serif"],
+        sans: ["Cairo", "Inter", "sans-serif"],
       },
     },
   },
