@@ -43,6 +43,12 @@ const menuGroups = [
     ],
   },
   {
+    label: "Umrah",
+    items: [
+      { name: "Umrah Management", path: "/umrah", icon: "mdi:kaaba" },
+    ],
+  },
+  {
     label: "Registrations",
     items: [
       { name: "Offer Registrations", path: "/offer-registrations", icon: "mdi:clipboard-list-outline" },

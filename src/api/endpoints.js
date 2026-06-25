@@ -232,3 +232,23 @@ export const tourBookingsAPI = {
   updatePayment: (id, data) => api.put(`/admin/tour-bookings/${id}/payment`, data),
   delete: (id) => api.delete(`/admin/tour-bookings/${id}/delete`),
 };
+
+// ─── Umrah ────────────────────────────────────────────────────────────────────
+const umrahMultipart = { headers: { "Content-Type": undefined } };
+export const umrahAPI = {
+  // Banners
+  bannersList: () => api.get("/admin/umrah/banners/list"),
+  bannerCreate: (fd) => api.post("/admin/umrah/banners/create", fd, umrahMultipart),
+  bannerUpdate: (id, fd) => api.put(`/admin/umrah/banners/${id}/update`, fd, umrahMultipart),
+  bannerDelete: (id) => api.delete(`/admin/umrah/banners/${id}/delete`),
+  // Packages
+  packagesList: () => api.get("/admin/umrah/packages/list"),
+  packageGet: (id) => api.get(`/admin/umrah/packages/${id}`),
+  packageCreate: (fd) => api.post("/admin/umrah/packages/create", fd, umrahMultipart),
+  packageUpdate: (id, fd) => api.put(`/admin/umrah/packages/${id}/update`, fd, umrahMultipart),
+  packageDelete: (id) => api.delete(`/admin/umrah/packages/${id}/delete`),
+  // Registrations
+  registrationsList: (params) => api.get("/admin/umrah/registrations/list", { params }),
+  updatePayment: (id, data) => api.put(`/admin/umrah/registrations/${id}/payment`, data),
+  registrationDelete: (id) => api.delete(`/admin/umrah/registrations/${id}/delete`),
+};

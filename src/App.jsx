@@ -28,6 +28,7 @@ import TourDestinations from "./TourDestinations/Index.jsx";
 import Tours from "./Tours/Index.jsx";
 import OfferRegistrations from "./OfferRegistrations/Index.jsx";
 import TourBookings from "./TourBookings/Index.jsx";
+import Umrah from "./Umrah/Index.jsx";
 
 function AuthRoot() {
   return (
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
           { path: "/tours", element: <Tours /> },
           { path: "/offer-registrations", element: <OfferRegistrations /> },
           { path: "/tour-bookings", element: <TourBookings /> },
+          { path: "/umrah", element: <Umrah /> },
         ],
       },
     ],
