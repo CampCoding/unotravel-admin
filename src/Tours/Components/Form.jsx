@@ -198,6 +198,12 @@ export default function TourForm({ initialData, onSuccess, onClose }) {
   const [maxTravelers, setMaxTravelers] = useState(initialData?.max_travelers ?? 15);
   const [sortOrder, setSortOrder] = useState(initialData?.sort_order ?? 0);
   const [active, setActive] = useState(initialData?.tour_active ?? true);
+  const [meetingAddress, setMeetingAddress] = useState(initialData?.meeting_point_address ?? "");
+  const [meetingLat, setMeetingLat] = useState(initialData?.meeting_point_lat ?? "");
+  const [meetingLng, setMeetingLng] = useState(initialData?.meeting_point_lng ?? "");
+  const [pickupAddress, setPickupAddress] = useState(initialData?.pickup_point_address ?? "");
+  const [pickupLat, setPickupLat] = useState(initialData?.pickup_point_lat ?? "");
+  const [pickupLng, setPickupLng] = useState(initialData?.pickup_point_lng ?? "");
   const [translations, setTranslations] = useState(initTranslations(initialData?.translations));
   const [saving, setSaving] = useState(false);
 
@@ -224,6 +230,12 @@ export default function TourForm({ initialData, onSuccess, onClose }) {
         max_travelers: maxTravelers,
         sort_order: sortOrder,
         tour_active: active ? "1" : "0",
+        meeting_point_address: meetingAddress || null,
+        meeting_point_lat: meetingLat || null,
+        meeting_point_lng: meetingLng || null,
+        pickup_point_address: pickupAddress || null,
+        pickup_point_lat: pickupLat || null,
+        pickup_point_lng: pickupLng || null,
         translations: JSON.stringify(translations),
       };
       if (isEdit) await toursAPI.update(id, payload);
@@ -287,6 +299,30 @@ export default function TourForm({ initialData, onSuccess, onClose }) {
 
       <div className="border border-gray-100 rounded-xl px-4 py-1">
         <Toggle label="Active" value={active} onChange={setActive} />
+      </div>
+
+      {/* Location Settings */}
+      <div className="border border-gray-100 rounded-xl p-4 space-y-3">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+          <Icon icon="mdi:map-marker" width={14} /> Meeting Point
+        </p>
+        <input type="text" value={meetingAddress} onChange={e => setMeetingAddress(e.target.value)} placeholder="Address / description" className={inp} />
+        <div className="grid grid-cols-2 gap-3">
+          <input type="number" step="any" value={meetingLat} onChange={e => setMeetingLat(e.target.value)} placeholder="Latitude (e.g. 41.4036)" className={inp} />
+          <input type="number" step="any" value={meetingLng} onChange={e => setMeetingLng(e.target.value)} placeholder="Longitude (e.g. 2.1744)" className={inp} />
+        </div>
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1.5 pt-2">
+          <Icon icon="mdi:map-marker-radius" width={14} /> Pickup Point
+        </p>
+        <input type="text" value={pickupAddress} onChange={e => setPickupAddress(e.target.value)} placeholder="Address / description" className={inp} />
+        <div className="grid grid-cols-2 gap-3">
+          <input type="number" step="any" value={pickupLat} onChange={e => setPickupLat(e.target.value)} placeholder="Latitude" className={inp} />
+          <input type="number" step="any" value={pickupLng} onChange={e => setPickupLng(e.target.value)} placeholder="Longitude" className={inp} />
+        </div>
+        <p className="text-[11px] text-gray-400 flex items-center gap-1">
+          <Icon icon="mdi:information-outline" width={12} />
+          Tip: right-click on Google Maps → "What's here?" to get coordinates
+        </p>
       </div>
 
       {/* Media Manager — edit mode only */}

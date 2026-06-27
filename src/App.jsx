@@ -29,6 +29,10 @@ import Tours from "./Tours/Index.jsx";
 import OfferRegistrations from "./OfferRegistrations/Index.jsx";
 import TourBookings from "./TourBookings/Index.jsx";
 import Umrah from "./Umrah/Index.jsx";
+import IntlTours from "./IntlTours/Index.jsx";
+import VisaAdmin from "./Visa/Index.jsx";
+import LegalDocuments from "./Legal/Index.jsx";
+import OnlinePayments from "./OnlinePayments/Index.jsx";
 
 function AuthRoot() {
   return (
@@ -75,7 +79,11 @@ const router = createBrowserRouter([
           { path: "/tours", element: <Tours /> },
           { path: "/offer-registrations", element: <OfferRegistrations /> },
           { path: "/tour-bookings", element: <TourBookings /> },
-          { path: "/umrah", element: <Umrah /> },
+          { path: "/umrah",      element: <Umrah /> },
+          { path: "/intl-tours", element: <IntlTours /> },
+          { path: "/visa",             element: <VisaAdmin /> },
+          { path: "/legal",            element: <LegalDocuments /> },
+          { path: "/online-payments",  element: <OnlinePayments /> },
         ],
       },
     ],

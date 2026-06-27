@@ -223,6 +223,7 @@ export const toursAPI = {
 // ─── Offer Registrations ──────────────────────────────────────────────────────
 export const offerRegistrationsAPI = {
   list: (params) => api.get("/admin/offer-registrations/list", { params }),
+  updatePayment: (id, data) => api.put(`/admin/offer-registrations/${id}/payment`, data),
   delete: (id) => api.delete(`/admin/offer-registrations/${id}/delete`),
 };
 
@@ -231,6 +232,46 @@ export const tourBookingsAPI = {
   list: (params) => api.get("/admin/tour-bookings/list", { params }),
   updatePayment: (id, data) => api.put(`/admin/tour-bookings/${id}/payment`, data),
   delete: (id) => api.delete(`/admin/tour-bookings/${id}/delete`),
+};
+
+// ─── International Tours ──────────────────────────────────────────────────────
+export const intlToursAPI = {
+  bannersList:   ()        => api.get("/admin/intl-tours/banners/list"),
+  bannerCreate:  (fd)      => api.post("/admin/intl-tours/banners/create", fd, { headers: { "Content-Type": undefined } }),
+  bannerUpdate:  (id, fd)  => api.put(`/admin/intl-tours/banners/${id}/update`, fd, { headers: { "Content-Type": undefined } }),
+  bannerDelete:  (id)      => api.delete(`/admin/intl-tours/banners/${id}/delete`),
+  featuresList:  ()        => api.get("/admin/intl-tours/features/list"),
+  featureCreate: (data)    => api.post("/admin/intl-tours/features/create", data),
+  featureUpdate: (id, data)=> api.put(`/admin/intl-tours/features/${id}/update`, data),
+  featureDelete: (id)      => api.delete(`/admin/intl-tours/features/${id}/delete`),
+};
+
+// ─── Visa Services ───────────────────────────────────────────────────────────
+export const visaAPI = {
+  // Banners
+  bannersList:        ()           => api.get("/admin/visa/banners/list"),
+  bannerCreate:       (fd)         => api.post("/admin/visa/banners/create", fd, { headers: { "Content-Type": undefined } }),
+  bannerUpdate:       (id, fd)     => api.put(`/admin/visa/banners/${id}/update`, fd, { headers: { "Content-Type": undefined } }),
+  bannerDelete:       (id)         => api.delete(`/admin/visa/banners/${id}/delete`),
+  // Countries
+  countriesList:      ()        => api.get("/admin/visa/countries"),
+  countryCreate:      (data)    => api.post("/admin/visa/countries", data),
+  countryUpdate:      (id, data)=> api.put(`/admin/visa/countries/${id}`, data),
+  countryDelete:      (id)      => api.delete(`/admin/visa/countries/${id}`),
+  // Visa Types
+  visaTypesList:      ()        => api.get("/admin/visa/visa-types"),
+  visaTypeCreate:     (data)    => api.post("/admin/visa/visa-types", data),
+  visaTypeUpdate:     (id, data)=> api.put(`/admin/visa/visa-types/${id}`, data),
+  visaTypeDelete:     (id)      => api.delete(`/admin/visa/visa-types/${id}`),
+  // Passport Types
+  passportTypesList:  ()        => api.get("/admin/visa/passport-types"),
+  passportTypeCreate: (data)    => api.post("/admin/visa/passport-types", data),
+  passportTypeUpdate: (id, data)=> api.put(`/admin/visa/passport-types/${id}`, data),
+  passportTypeDelete: (id)      => api.delete(`/admin/visa/passport-types/${id}`),
+  // Applications
+  applicationsList:   (params)  => api.get("/admin/visa/applications", { params }),
+  applicationStatus:  (id, data)=> api.put(`/admin/visa/applications/${id}/status`, data),
+  applicationDelete:  (id)      => api.delete(`/admin/visa/applications/${id}`),
 };
 
 // ─── Umrah ────────────────────────────────────────────────────────────────────
@@ -251,4 +292,11 @@ export const umrahAPI = {
   registrationsList: (params) => api.get("/admin/umrah/registrations/list", { params }),
   updatePayment: (id, data) => api.put(`/admin/umrah/registrations/${id}/payment`, data),
   registrationDelete: (id) => api.delete(`/admin/umrah/registrations/${id}/delete`),
+};
+
+// ─── Legal Documents ──────────────────────────────────────────────────────────
+export const legalAPI = {
+  list:   ()            => api.get("/admin/legal"),
+  get:    (slug)        => api.get(`/admin/legal/${slug}`),
+  update: (slug, data)  => api.put(`/admin/legal/${slug}`, data),
 };

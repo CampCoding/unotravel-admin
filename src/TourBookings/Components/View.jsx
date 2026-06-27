@@ -79,14 +79,96 @@ function PaymentModal({ booking, onClose, onSaved }) {
   );
 }
 
+function BookingDetailModal({ booking, onClose }) {
+  const hasPickup = booking.meeting_option === "pickup" && booking.pickup_lat && booking.pickup_lng;
+  const lat = Number(booking.pickup_lat);
+  const lng = Number(booking.pickup_lng);
+  const mapSrc = hasPickup
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.01},${lng + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lng}`
+    : null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
+      <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl my-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <h3 className="text-base font-bold text-gray-800">Booking Details</h3>
+          <button onClick={onClose} className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+            <Icon icon="mdi:close" width={16} />
+          </button>
+        </div>
+        <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+          {/* Tour info */}
+          <div className="bg-blue-50 rounded-xl p-4">
+            <p className="text-xs text-blue-500 font-semibold uppercase mb-1">Tour</p>
+            <p className="font-bold text-gray-800">{booking.tour_title || booking.tour_slug || "—"}</p>
+            {booking.destination_slug && <p className="text-sm text-gray-500 capitalize">{booking.destination_slug}</p>}
+          </div>
+
+          {/* Customer info */}
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { label: "Full Name",  value: booking.full_name },
+              { label: "Phone",      value: booking.phone },
+              { label: "Email",      value: booking.email || "—" },
+              { label: "Travelers",  value: booking.travelers },
+              { label: "Date",       value: booking.booking_date ? new Date(booking.booking_date).toLocaleDateString() : "—" },
+              { label: "Meeting",    value: booking.meeting_option },
+              { label: "Total",      value: `$${Number(booking.total_price).toFixed(2)}` },
+              { label: "Payment",    value: booking.payment_status },
+              { label: "Ref #",      value: booking.payment_reference || "—" },
+            ].map(({ label, value }) => (
+              <div key={label} className="bg-gray-50 rounded-xl px-4 py-3">
+                <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+                <p className="text-sm font-semibold text-gray-800">{value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pickup map */}
+          {hasPickup && (
+            <div>
+              <p className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                <Icon icon="mdi:map-marker" width={16} className="text-purple-500" />
+                Pickup Location
+              </p>
+              <div className="rounded-xl overflow-hidden border border-gray-200">
+                <iframe
+                  src={mapSrc}
+                  width="100%" height="260"
+                  style={{ border: 0 }}
+                  title="Pickup location"
+                />
+              </div>
+              <p className="text-xs text-gray-400 mt-1.5">
+                Coordinates: {lat.toFixed(6)}, {lng.toFixed(6)}
+                <a
+                  href={`https://www.google.com/maps?q=${lat},${lng}`}
+                  target="_blank" rel="noreferrer"
+                  className="ml-2 text-blueMain underline"
+                >Open in Google Maps</a>
+              </p>
+            </div>
+          )}
+          {booking.meeting_option === "pickup" && !hasPickup && (
+            <div className="bg-amber-50 text-amber-700 text-xs rounded-xl px-4 py-3">
+              Pickup selected but no coordinates were provided.
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function TourBookingsView() {
   const [filterStatus, setFilterStatus] = useState("");
   const [editBooking, setEditBooking] = useState(null);
+  const [viewBooking, setViewBooking] = useState(null);
   const { data: raw, loading, error, refetch } = useFetch(
     () => tourBookingsAPI.list(filterStatus ? { payment_status: filterStatus } : {}),
     [filterStatus]
   );
-  const rows = raw?.data ?? [];
+  const rows = Array.isArray(raw) ? raw : [];
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this booking?")) return;
@@ -101,6 +183,9 @@ export default function TourBookingsView() {
     <>
       {editBooking && (
         <PaymentModal booking={editBooking} onClose={() => setEditBooking(null)} onSaved={refetch} />
+      )}
+      {viewBooking && (
+        <BookingDetailModal booking={viewBooking} onClose={() => setViewBooking(null)} />
       )}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Filter bar */}
@@ -169,6 +254,13 @@ export default function TourBookingsView() {
                   <td className="px-4 py-3 text-gray-500 text-xs">{row.payment_reference || "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1.5">
+                      <button
+                        onClick={() => setViewBooking(row)}
+                        title="View details"
+                        className="w-8 h-8 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-600 flex items-center justify-center transition"
+                      >
+                        <Icon icon="mdi:eye-outline" width={16} />
+                      </button>
                       <button
                         onClick={() => setEditBooking(row)}
                         title="Update payment"

@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import Header from "../Shared/Header/Header.jsx";
 import { Icon } from "@iconify/react";
 import BannersTab from "./Components/BannersTab.jsx";
-import PackagesTab from "./Components/PackagesTab.jsx";
-import RegistrationsTab from "./Components/RegistrationsTab.jsx";
+import FeaturesTab from "./Components/FeaturesTab.jsx";
 
 const TABS = [
-  { key: "packages",      label: "Packages",      icon: "mdi:kaaba" },
-  { key: "banners",       label: "Banners",       icon: "mdi:image-multiple" },
-  { key: "registrations", label: "Registrations", icon: "mdi:clipboard-list-outline" },
+  { key: "banners",  label: "Banners",  icon: "mdi:image-multiple" },
+  { key: "features", label: "Features", icon: "mdi:star-circle-outline" },
 ];
 
-export default function Umrah() {
-  const [activeTab, setActiveTab] = useState("packages");
+export default function IntlTours() {
+  const [activeTab, setActiveTab] = useState("banners");
 
   return (
     <>
-      <Header title="Umrah Management" icon="mdi:kaaba" />
+      <Header title="International Tours" icon="mdi:earth" />
 
       <div className="p-6">
         <div className="flex gap-2 mb-5 border-b border-gray-200 pb-0">
@@ -36,9 +34,8 @@ export default function Umrah() {
           ))}
         </div>
 
-        {activeTab === "packages"      && <PackagesTab />}
-        {activeTab === "banners"       && <BannersTab />}
-        {activeTab === "registrations" && <RegistrationsTab />}
+        {activeTab === "banners"  && <BannersTab />}
+        {activeTab === "features" && <FeaturesTab />}
       </div>
     </>
   );

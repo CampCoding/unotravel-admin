@@ -20,12 +20,29 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(pkg?.image_url || null);
 
+  // Parse existing travel_dates "DD/MM/YYYY - DD/MM/YYYY" into ISO date strings
+  const parseTravelDates = (str) => {
+    if (!str) return { from: "", to: "" };
+    const parts = str.split(/\s*[-–]\s*/);
+    const toISO = (s) => {
+      s = s.trim().replace(/[^\d/]/g, "");
+      const m = s.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{4}))?$/);
+      if (!m) return "";
+      const y = m[3] || new Date().getFullYear();
+      return `${y}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`;
+    };
+    return parts.length >= 2 ? { from: toISO(parts[0]), to: toISO(parts[1]) } : { from: "", to: "" };
+  };
+  const parsedDates = parseTravelDates(pkg?.travel_dates);
+
   const [form, setForm] = useState({
-    price:        pkg?.price        ?? "",
-    duration:     pkg?.duration     ?? "",
-    travel_dates: pkg?.travel_dates ?? "",
-    is_active:    pkg?.is_active    ?? 1,
-    sort_order:   pkg?.sort_order   ?? 0,
+    price:             pkg?.price      ?? "",
+    duration:          pkg?.duration   ?? "",
+    travel_dates:      pkg?.travel_dates ?? "",
+    travel_date_from:  parsedDates.from,
+    travel_date_to:    parsedDates.to,
+    is_active:         pkg?.is_active  ?? 1,
+    sort_order:        pkg?.sort_order ?? 0,
   });
 
   const [trans, setTrans] = useState({
@@ -93,8 +110,22 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
         { ...trans.ar, language_id: 2, costs_list: JSON.stringify(trans.ar.costs_list.filter(c => c.trim())) },
       ];
 
+      // Format travel_dates from the two date pickers
+      const fmtDate = (iso) => {
+        if (!iso) return "";
+        const [y, m, d] = iso.split("-");
+        return `${d}/${m}/${y}`;
+      };
+      const combinedDates = form.travel_date_from && form.travel_date_to
+        ? `${fmtDate(form.travel_date_from)} - ${fmtDate(form.travel_date_to)}`
+        : form.travel_date_from ? fmtDate(form.travel_date_from)
+        : "";
+
       const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+      const submitForm = { ...form, travel_dates: combinedDates };
+      Object.entries(submitForm).forEach(([k, v]) => {
+        if (k !== "travel_date_from" && k !== "travel_date_to") fd.append(k, v);
+      });
       fd.append("translations", JSON.stringify(translations));
       if (imageFile) fd.append("umrah_image", imageFile);
 
@@ -136,8 +167,8 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
             </div>
           </div>
 
-          {/* Price + Duration + Dates */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Price + Duration */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Price ($) <span className="text-red-500">*</span></label>
               <input type="number" min="0" step="0.01" value={form.price}
@@ -148,11 +179,32 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
               <input type="text" value={form.duration}
                 onChange={e => setForm(p => ({ ...p, duration: e.target.value }))} className={inp} placeholder="e.g. 10 days" />
             </div>
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Travel Dates</label>
-              <input type="text" value={form.travel_dates}
-                onChange={e => setForm(p => ({ ...p, travel_dates: e.target.value }))} className={inp} placeholder="e.g. 24/10 - 03/11" />
+          </div>
+
+          {/* Travel Dates */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Travel Dates</label>
+            <div className="grid grid-cols-2 gap-3 items-center">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">From</p>
+                <input type="date" value={form.travel_date_from}
+                  onChange={e => setForm(p => ({ ...p, travel_date_from: e.target.value }))} className={inp} />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 mb-1">To</p>
+                <input type="date" value={form.travel_date_to}
+                  min={form.travel_date_from || undefined}
+                  onChange={e => setForm(p => ({ ...p, travel_date_to: e.target.value }))} className={inp} />
+              </div>
             </div>
+            {form.travel_date_from && form.travel_date_to && (
+              <p className="text-xs text-blueMain mt-1.5 font-medium">
+                {(() => {
+                  const fmt = (iso) => { const [y,m,d] = iso.split("-"); return `${d}/${m}/${y}`; };
+                  return `${fmt(form.travel_date_from)} → ${fmt(form.travel_date_to)}`;
+                })()}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -185,7 +237,7 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
               {/* Title */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Title <span className="text-red-500">*</span>
+                  {isAr ? "العنوان" : "Title"} <span className="text-red-500">*</span>
                 </label>
                 <input type="text" value={trans[activeLang].title}
                   onChange={e => setT(activeLang, "title", e.target.value)}
@@ -194,7 +246,7 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
 
               {/* Description — RichText */}
               <RichText
-                label="Description"
+                label={isAr ? "الوصف" : "Description"}
                 value={trans[activeLang].description}
                 onChange={val => setT(activeLang, "description", val)}
                 dir={isAr ? "rtl" : "ltr"}
@@ -203,16 +255,16 @@ export default function PackageForm({ pkg, onClose, onSaved }) {
               {/* Costs List — dynamic items */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-semibold text-gray-700">Costs List</label>
+                  <label className="block text-sm font-semibold text-gray-700">{isAr ? "قائمة التكاليف" : "Costs List"}</label>
                   <button type="button" onClick={() => addCost(activeLang)}
                     className="flex items-center gap-1 text-xs font-semibold text-blueMain bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition">
-                    <Icon icon="mdi:plus" width={14} /> Add Item
+                    <Icon icon="mdi:plus" width={14} /> {isAr ? "إضافة عنصر" : "Add Item"}
                   </button>
                 </div>
 
                 {trans[activeLang].costs_list.length === 0 && (
                   <p className="text-xs text-gray-400 py-3 text-center border-2 border-dashed border-gray-200 rounded-xl">
-                    No items yet — click "Add Item"
+                    {isAr ? 'لا يوجد عناصر — اضغط "إضافة عنصر"' : 'No items yet — click "Add Item"'}
                   </p>
                 )}
 
