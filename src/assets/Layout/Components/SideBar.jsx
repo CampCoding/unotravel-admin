@@ -12,15 +12,35 @@ const menuGroups = [
     ],
   },
   {
+    label: "Bookings",
+    items: [
+      { name: "Tour Bookings",       path: "/tour-bookings",       icon: "mdi:ticket-confirmation-outline" },
+      { name: "Offer Registrations", path: "/offer-registrations", icon: "mdi:clipboard-list-outline" },
+      { name: "Umrah Registrations", path: "/umrah",               icon: "mdi:kaaba" },
+      { name: "Visa Applications",   path: "/visa",                icon: "mdi:passport" },
+      { name: "Car Bookings",        path: "/car-reservation",     icon: "mdi:car-key" },
+      { name: "Ride Bookings",       path: "/ride-bookings",       icon: "mdi:car-sports" },
+      { name: "Online Payments",     path: "/online-payments",     icon: "mdi:credit-card-outline" },
+    ],
+  },
+  {
+    label: "Tours",
+    items: [
+      { name: "Destinations",     path: "/tour-destinations", icon: "mdi:map-marker-path" },
+      { name: "Tours",            path: "/tours",             icon: "mdi:map-search-outline" },
+      { name: "Int'l Tours",      path: "/intl-tours",        icon: "mdi:earth" },
+    ],
+  },
+  {
     label: "Content",
     items: [
-      { name: "Banners",   path: "/banners",  icon: "mdi:images" },
-      { name: "Services",  path: "/services", icon: "material-symbols:linked-services" },
-      { name: "Offers",    path: "/offers",   icon: "mdi:tag-multiple" },
-      { name: "Reels",     path: "/reels",    icon: "bxs:videos" },
-      { name: "Logos",     path: "/logos",    icon: "mdi:image-multiple-outline" },
-      { name: "Articles",  path: "/news",     icon: "fluent:news-24-regular" },
-      { name: "News Categories", path: "/news-categories", icon: "mdi:tag-text-outline" },
+      { name: "Banners",          path: "/banners",          icon: "mdi:images" },
+      { name: "Services",         path: "/services",         icon: "material-symbols:linked-services" },
+      { name: "Offers",           path: "/offers",           icon: "mdi:tag-multiple" },
+      { name: "Reels",            path: "/reels",            icon: "bxs:videos" },
+      { name: "Logos",            path: "/logos",            icon: "mdi:image-multiple-outline" },
+      { name: "Articles",         path: "/news",             icon: "fluent:news-24-regular" },
+      { name: "News Categories",  path: "/news-categories",  icon: "mdi:tag-text-outline" },
     ],
   },
   {
@@ -36,35 +56,11 @@ const menuGroups = [
     ],
   },
   {
-    label: "Tours",
+    label: "Settings",
     items: [
-      { name: "Destinations",    path: "/tour-destinations", icon: "mdi:map-marker-path" },
-      { name: "Tours",           path: "/tours",             icon: "mdi:map-search-outline" },
-      { name: "Int'l Tours Page",path: "/intl-tours",        icon: "mdi:earth" },
-    ],
-  },
-  {
-    label: "Travel Services",
-    items: [
-      { name: "Umrah",            path: "/umrah",            icon: "mdi:kaaba" },
-      { name: "Visa Services",    path: "/visa",             icon: "mdi:passport" },
-      { name: "Car Reservation",  path: "/car-reservation",  icon: "mdi:car-key" },
-    ],
-  },
-  {
-    label: "Registrations",
-    items: [
-      { name: "Offer Registrations", path: "/offer-registrations", icon: "mdi:clipboard-list-outline" },
-      { name: "Tour Bookings",       path: "/tour-bookings",       icon: "mdi:ticket-confirmation-outline" },
-      { name: "Online Payments",     path: "/online-payments",     icon: "mdi:credit-card-outline" },
-    ],
-  },
-  {
-    label: "Site Config",
-    items: [
-      { name: "Sales Agents",    path: "/salesAgents",  icon: "ph:users-three-fill" },
       { name: "About",           path: "/about",        icon: "mdi:information-outline" },
       { name: "Contact Page",    path: "/contact-form", icon: "mdi:contacts" },
+      { name: "Sales Agents",    path: "/salesAgents",  icon: "ph:users-three-fill" },
       { name: "Application",     path: "/application",  icon: "mdi:cellphone" },
       { name: "Newsletter",      path: "/newsletter",   icon: "mdi:email-newsletter" },
       { name: "Legal Documents", path: "/legal",        icon: "mdi:file-document-multiple-outline" },

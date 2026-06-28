@@ -270,8 +270,8 @@ export default function OnlinePayments() {
                     </td>
                     <td className="px-4 py-2.5 text-right">
                       <div className="flex gap-1 justify-end">
-                        <button onClick={() => openItem(r)} className="w-7 h-7 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-600 flex items-center justify-center transition" title="Edit">
-                          <Icon icon="mdi:pencil-outline" width={13} />
+                        <button onClick={() => openItem(r)} className="w-7 h-7 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-600 flex items-center justify-center transition" title="View details">
+                          <Icon icon="mdi:eye-outline" width={13} />
                         </button>
                         <button onClick={() => handleDelete(r.id)} className="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center transition">
                           <Icon icon="mdi:trash-can-outline" width={13} />

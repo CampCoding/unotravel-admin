@@ -308,6 +308,13 @@ export const contactMessagesAPI = {
   delete:     (id)     => api.delete(`/admin/contact/messages/${id}/delete`),
 };
 
+// ─── Ride Bookings ────────────────────────────────────────────────────────────
+export const rideBookingsAPI = {
+  list:         (params) => api.get("/admin/ride-bookings/list", { params }),
+  updateStatus: (id, data) => api.put(`/admin/ride-bookings/${id}/status`, data),
+  delete:       (id)     => api.delete(`/admin/ride-bookings/${id}/delete`),
+};
+
 // ─── Car Reservation ──────────────────────────────────────────────────────────
 const carImg = { headers: { "Content-Type": undefined } };
 export const carReservationAPI = {

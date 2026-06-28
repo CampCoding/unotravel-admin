@@ -34,6 +34,7 @@ import VisaAdmin from "./Visa/Index.jsx";
 import LegalDocuments from "./Legal/Index.jsx";
 import OnlinePayments    from "./OnlinePayments/Index.jsx";
 import CarReservation   from "./CarReservation/Index.jsx";
+import RideBookings     from "./RideBookings/Index.jsx";
 
 function AuthRoot() {
   return (
@@ -86,6 +87,7 @@ const router = createBrowserRouter([
           { path: "/legal",            element: <LegalDocuments /> },
           { path: "/online-payments",  element: <OnlinePayments /> },
           { path: "/car-reservation",  element: <CarReservation /> },
+          { path: "/ride-bookings",    element: <RideBookings /> },
         ],
       },
     ],

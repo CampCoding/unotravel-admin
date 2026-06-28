@@ -63,9 +63,52 @@ function PaymentModal({ reg, onClose, onSaved }) {
   );
 }
 
+function DetailModal({ reg, onClose }) {
+  const fmt = (d) => d ? new Date(d).toLocaleString("en-US", { day:"numeric", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" }) : "—";
+  const fields = [
+    { l: "Full Name",     v: reg.full_name },
+    { l: "Phone",         v: reg.phone },
+    { l: "Email",         v: reg.email || "—" },
+    { l: "Passport",      v: reg.passport_number || "—" },
+    { l: "Package",       v: reg.package_title || "—" },
+    { l: "Travelers",     v: reg.travelers ?? "—" },
+    { l: "Total Price",   v: reg.total_price ? `$${Number(reg.total_price).toFixed(2)}` : "—" },
+    { l: "Payment",       v: reg.payment_status ?? "pending" },
+    { l: "Payment ID",    v: reg.payment_id || "—" },
+    { l: "Submitted",     v: fmt(reg.created_at) },
+  ];
+  return (
+    <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div>
+            <h3 className="font-bold text-gray-800">Registration #{reg.id}</h3>
+            <p className="text-xs text-gray-400">{fmt(reg.created_at)}</p>
+          </div>
+          <button onClick={onClose} className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+            <Icon icon="mdi:close" width={16} />
+          </button>
+        </div>
+        <div className="p-6 grid grid-cols-2 gap-3 max-h-[70vh] overflow-y-auto">
+          {fields.map(({ l, v }) => (
+            <div key={l} className="bg-gray-50 rounded-xl px-4 py-3">
+              <p className="text-xs text-gray-400 mb-0.5">{l}</p>
+              <p className="text-sm font-semibold text-gray-800 break-all">{v}</p>
+            </div>
+          ))}
+        </div>
+        <div className="px-6 pb-5">
+          <button onClick={onClose} className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl hover:bg-gray-50 transition">Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function RegistrationsTab() {
   const [filterStatus, setFilterStatus] = useState("");
   const [editReg, setEditReg] = useState(null);
+  const [viewReg, setViewReg] = useState(null);
   const { data: raw, loading, error, refetch } = useFetch(
     () => umrahAPI.registrationsList(filterStatus ? { payment_status: filterStatus } : {}),
     [filterStatus]
@@ -84,6 +127,7 @@ export default function RegistrationsTab() {
   return (
     <>
       {editReg && <PaymentModal reg={editReg} onClose={() => setEditReg(null)} onSaved={refetch} />}
+      {viewReg && <DetailModal reg={viewReg} onClose={() => setViewReg(null)} />}
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Filter bar */}
@@ -139,6 +183,10 @@ export default function RegistrationsTab() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1.5">
+                      <button onClick={() => setViewReg(row)} title="View details"
+                        className="w-8 h-8 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-600 flex items-center justify-center transition">
+                        <Icon icon="mdi:eye-outline" width={16} />
+                      </button>
                       <button onClick={() => setEditReg(row)} title="Update payment"
                         className="w-8 h-8 rounded-lg bg-blueMain/10 hover:bg-blueMain/20 text-blueMain flex items-center justify-center transition">
                         <Icon icon="mdi:credit-card-edit-outline" width={16} />
