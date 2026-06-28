@@ -300,3 +300,33 @@ export const legalAPI = {
   get:    (slug)        => api.get(`/admin/legal/${slug}`),
   update: (slug, data)  => api.put(`/admin/legal/${slug}`, data),
 };
+
+// ─── Car Reservation ──────────────────────────────────────────────────────────
+const carImg = { headers: { "Content-Type": undefined } };
+export const carReservationAPI = {
+  // Banners
+  bannersList:   ()        => api.get("/admin/car-reservation/banners/list"),
+  bannerCreate:  (fd)      => api.post("/admin/car-reservation/banners/create", fd, carImg),
+  bannerUpdate:  (id, fd)  => api.put(`/admin/car-reservation/banners/${id}/update`, fd, carImg),
+  bannerDelete:  (id)      => api.delete(`/admin/car-reservation/banners/${id}/delete`),
+  // Fleet (Cars)
+  carsList:      ()        => api.get("/admin/car-reservation/cars/list"),
+  carGet:        (id)      => api.get(`/admin/car-reservation/cars/${id}`),
+  carCreate:     (fd)      => api.post("/admin/car-reservation/cars/create", fd, carImg),
+  carUpdate:     (id, fd)  => api.put(`/admin/car-reservation/cars/${id}/update`, fd, carImg),
+  carDelete:     (id)      => api.delete(`/admin/car-reservation/cars/${id}/delete`),
+  // Features (Why Choose Us)
+  featuresList:  ()        => api.get("/admin/car-reservation/features/list"),
+  featureCreate: (data)    => api.post("/admin/car-reservation/features/create", data),
+  featureUpdate: (id, data)=> api.put(`/admin/car-reservation/features/${id}/update`, data),
+  featureDelete: (id)      => api.delete(`/admin/car-reservation/features/${id}/delete`),
+  // How It Works
+  howItWorksList:   ()        => api.get("/admin/car-reservation/how-it-works/list"),
+  howItWorksCreate: (data)    => api.post("/admin/car-reservation/how-it-works/create", data),
+  howItWorksUpdate: (id, data)=> api.put(`/admin/car-reservation/how-it-works/${id}/update`, data),
+  howItWorksDelete: (id)      => api.delete(`/admin/car-reservation/how-it-works/${id}/delete`),
+  // Bookings
+  bookingsList:   (params) => api.get("/admin/car-reservation/bookings/list", { params }),
+  bookingStatus:  (id, data)=> api.put(`/admin/car-reservation/bookings/${id}/status`, data),
+  bookingDelete:  (id)     => api.delete(`/admin/car-reservation/bookings/${id}/delete`),
+};

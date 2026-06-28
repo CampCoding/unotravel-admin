@@ -46,8 +46,9 @@ const menuGroups = [
   {
     label: "Travel Services",
     items: [
-      { name: "Umrah",           path: "/umrah",       icon: "mdi:kaaba" },
-      { name: "Visa Services",   path: "/visa",        icon: "mdi:passport" },
+      { name: "Umrah",            path: "/umrah",            icon: "mdi:kaaba" },
+      { name: "Visa Services",    path: "/visa",             icon: "mdi:passport" },
+      { name: "Car Reservation",  path: "/car-reservation",  icon: "mdi:car-key" },
     ],
   },
   {

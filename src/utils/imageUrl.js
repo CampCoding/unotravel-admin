@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "https://uno-travel.camp-coding.site";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://api.unotravelsweden.com";
 
 export function img(path) {
   if (!path) return null;
