@@ -5,8 +5,9 @@ import RichText from "../Shared/Form/RichText.jsx";
 import { legalAPI } from "../api/endpoints.js";
 
 const TABS = [
-  { key: "terms", label: "Terms & Conditions", icon: "mdi:file-document-outline" },
-  { key: "gdpr",  label: "GDPR Policy",        icon: "mdi:shield-lock-outline" },
+  { key: "terms",   label: "Terms & Conditions", icon: "mdi:file-document-outline" },
+  { key: "gdpr",    label: "GDPR Policy",        icon: "mdi:shield-lock-outline" },
+  { key: "privacy", label: "Privacy Policy",     icon: "mdi:eye-lock-outline" },
 ];
 
 function DocEditor({ slug }) {

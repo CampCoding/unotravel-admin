@@ -6,6 +6,7 @@ import SiteInfoSection from "./Components/SiteInfoSection.jsx";
 import BranchesSection from "./Components/BranchesSection.jsx";
 import NumbersSection from "./Components/NumbersSection.jsx";
 import View from "./Components/View.jsx";
+import MessagesSection from "./Components/MessagesSection.jsx";
 
 const TABS = [
   { key: "hero",     label: "Contact Hero",    icon: "mdi:image-area" },
@@ -13,6 +14,7 @@ const TABS = [
   { key: "branches", label: "Branches",        icon: "mdi:map-marker-multiple" },
   { key: "numbers",  label: "Call Center",     icon: "mdi:phone-classic" },
   { key: "form",     label: "Contact Form",    icon: "mdi:form-select" },
+  { key: "messages", label: "Messages",        icon: "mdi:email-outline" },
 ];
 
 export default function Contact() {
@@ -49,6 +51,7 @@ export default function Contact() {
         {activeTab === "branches" && <BranchesSection />}
         {activeTab === "numbers"  && <NumbersSection />}
         {activeTab === "form"     && <View />}
+        {activeTab === "messages" && <MessagesSection />}
       </div>
     </>
   );

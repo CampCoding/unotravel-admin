@@ -301,6 +301,13 @@ export const legalAPI = {
   update: (slug, data)  => api.put(`/admin/legal/${slug}`, data),
 };
 
+// ─── Contact Messages ─────────────────────────────────────────────────────────
+export const contactMessagesAPI = {
+  list:       (params) => api.get("/admin/contact/messages/list", { params }),
+  markRead:   (id)     => api.put(`/admin/contact/messages/${id}/read`),
+  delete:     (id)     => api.delete(`/admin/contact/messages/${id}/delete`),
+};
+
 // ─── Car Reservation ──────────────────────────────────────────────────────────
 const carImg = { headers: { "Content-Type": undefined } };
 export const carReservationAPI = {
