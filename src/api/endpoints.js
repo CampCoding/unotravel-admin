@@ -325,6 +325,14 @@ export const carReservationAPI = {
   howItWorksCreate: (data)    => api.post("/admin/car-reservation/how-it-works/create", data),
   howItWorksUpdate: (id, data)=> api.put(`/admin/car-reservation/how-it-works/${id}/update`, data),
   howItWorksDelete: (id)      => api.delete(`/admin/car-reservation/how-it-works/${id}/delete`),
+  // Hero Settings
+  heroGet:        ()        => api.get("/admin/car-reservation/hero/settings"),
+  heroUpdate:     (data)    => api.put("/admin/car-reservation/hero/settings/update", data),
+  // Stats
+  statsList:      ()        => api.get("/admin/car-reservation/stats/list"),
+  statCreate:     (data)    => api.post("/admin/car-reservation/stats/create", data),
+  statUpdate:     (id, data)=> api.put(`/admin/car-reservation/stats/${id}/update`, data),
+  statDelete:     (id)      => api.delete(`/admin/car-reservation/stats/${id}/delete`),
   // Bookings
   bookingsList:   (params) => api.get("/admin/car-reservation/bookings/list", { params }),
   bookingStatus:  (id, data)=> api.put(`/admin/car-reservation/bookings/${id}/status`, data),

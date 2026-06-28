@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
+import HeroTab       from "./Components/HeroTab.jsx";
+import StatsTab      from "./Components/StatsTab.jsx";
 import BannersTab    from "./Components/BannersTab.jsx";
 import CarsTab       from "./Components/CarsTab.jsx";
 import FeaturesTab   from "./Components/FeaturesTab.jsx";
@@ -7,6 +9,8 @@ import HowItWorksTab from "./Components/HowItWorksTab.jsx";
 import BookingsTab   from "./Components/BookingsTab.jsx";
 
 const TABS = [
+  { key: "hero",         label: "Hero Content",  icon: "mdi:text-box-edit-outline"       },
+  { key: "stats",        label: "Stats Bar",     icon: "mdi:chart-bar"                   },
   { key: "banners",      label: "Hero Banners",  icon: "mdi:image-multiple"              },
   { key: "cars",         label: "Fleet",         icon: "mdi:car-multiple"                },
   { key: "features",     label: "Features",      icon: "mdi:star-check-outline"          },
@@ -43,6 +47,8 @@ export default function CarReservation() {
         ))}
       </div>
 
+      {activeTab === "hero"         && <HeroTab />}
+      {activeTab === "stats"        && <StatsTab />}
       {activeTab === "banners"      && <BannersTab />}
       {activeTab === "cars"         && <CarsTab />}
       {activeTab === "features"     && <FeaturesTab />}
